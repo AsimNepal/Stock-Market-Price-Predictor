@@ -4,25 +4,21 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
 from keras.layers import Dense, LSTM
-from google.colab import files  # Uncomment this line if you're using Google Colab
+# Uncomment the next line if you're using Google Colab
+# from google.colab import files  
 
-# Step 1: Upload the CSV file
-# If using Google Colab, uncomment the next two lines
-# uploaded = files.upload()
-# df = pd.read_csv('your_stock_data.csv')  # Replace with the actual file name you uploaded
-
-# For local environment, replace the line below with your local CSV file path
-data_path = 'your_stock_data.csv'  # Replace with your actual file path
+# Step 1: Load the CSV file (Modify the file path as necessary)
+data_path = 'your_stock_data.csv'  # Replace with your CSV file path
 df = pd.read_csv(data_path)
 
-# Display the first few rows
+# Display the first few rows of the data
 print(df.head())
 
-# Step 2: Prepare the Data (Using 'Close' price for prediction)
+# Step 2: Use 'Close' price for predictions
 data = df['Close'].values
 data = data.reshape(-1, 1)
 
-# Normalize the data for better model performance
+# Normalize the data
 scaler = MinMaxScaler(feature_range=(0, 1))
 scaled_data = scaler.fit_transform(data)
 
@@ -70,12 +66,6 @@ train_predict = scaler.inverse_transform(train_predict)
 test_predict = scaler.inverse_transform(test_predict)
 
 # Step 7: Visualize the results
-train_len = len(train_data)
-test_len = len(test_data)
-
-# Create a full dataset with predictions
-dataset_total = np.concatenate((train_predict, test_predict), axis=0)
-
 plt.figure(figsize=(16,8))
 plt.title('Stock Price Prediction (Nepali Stock Market)')
 plt.plot(df['Close'], label='True Price', color='blue')
